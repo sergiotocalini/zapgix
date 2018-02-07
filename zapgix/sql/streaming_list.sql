@@ -1,0 +1,2 @@
+SELECT	client_addr
+FROM	pg_stat_replication
