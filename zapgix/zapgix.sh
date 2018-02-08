@@ -39,7 +39,7 @@ usage() {
     echo "  -h            Displays this help message."
     echo "  -j            Jsonify output."
     echo "  -p            Specify the auth_pass to connect to the databases."
-    echo "  -q ARG(str)   Query to PostgreSQL."
+    echo "  -s ARG(str)   Query to PostgreSQL."
     echo "  -u            Specify the auth_user to connect to the databases (default=postgres)."
     echo "  -v            Show the script version."
     echo "  -U            Specify a unix user to execute the sentences (default=postgres)."
@@ -97,7 +97,7 @@ done
 
 if [[ -f "${SQL%.sql}.sql" ]]; then
     cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
-    rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS}"`
+    rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
     rcode="${?}"
     if [[ ${JSON} -eq 1 ]]; then
        set -A rval ${rval}
