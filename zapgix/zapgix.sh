@@ -56,12 +56,12 @@ version() {
 #################################################################################
 
 #################################################################################
-while getopts "s::a:q:uphvj:" OPTION; do
+while getopts "s::a:s:uphvj:" OPTION; do
     case ${OPTION} in
 	h)
 	    usage
 	    ;;
-	q)
+	s)
 	    SQL="${APP_DIR}/sql/${OPTARG}"
 	    ;;
         j)
