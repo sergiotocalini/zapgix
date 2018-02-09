@@ -110,7 +110,7 @@ if [[ -f "${SQL%.sql}.sql" ]]; then
           IFS="|" values=(${line})
           output='{ '
           for val_index in ${!values[*]}; do
-             output+="'{#${JSON_ATTR[${val_index}]}}'":"'${values[${val_index}]}'" 
+             output+='"'{#${JSON_ATTR[${val_index}]}}'":"'${values[${val_index}]}'"'
              if (( ${val_index}+1 < ${#values[*]} )); then
                 output="${output}, "
              fi
