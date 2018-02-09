@@ -66,7 +66,8 @@ while getopts "s::a:s:uphvj:" OPTION; do
 	    ;;
         j)
             JSON=1
-	    JSON_ATTR=${OPTARG}
+	    #JSON_ATTR=${OPTARG}
+            IFS=":" JSON_ATTR=(${OPTARG})
             ;;
 	a)
 	    SQL_ARGS[${#SQL_ARGS[*]}]=${OPTARG}
@@ -91,8 +92,10 @@ done
 
 [[ -z "${auth_pass}" ]] && export PGPASSWORD=${auth_pass}
 
+count=1
 for arg in ${SQL_ARGS[@]}; do
-    ARGS+="-v ${arg} "
+    ARGS+="-v p${count}=${arg//p=} "
+    let "count=count+1"
 done
 
 if [[ -f "${SQL%.sql}.sql" ]]; then
@@ -100,18 +103,25 @@ if [[ -f "${SQL%.sql}.sql" ]]; then
     rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
     rcode="${?}"
     if [[ ${JSON} -eq 1 ]]; then
-       set -A rval ${rval}
        echo '{'
        echo '   "data":['
        count=1
-       for i in ${rval[@]};do
-          output='{ "'{#${JSON_ATTR}}'":"'${i}'" }'
-          if (( ${count} < ${#rval[*]} )); then
+       while read line; do
+          IFS="|" values=(${line})
+          output='{ '
+          for val_index in ${!values[*]}; do
+             output+="'{#${JSON_ATTR[${val_index}]}}'":"'${values[${val_index}]}'" 
+             if (( ${val_index}+1 < ${#values[*]} )); then
+                output="${output}, "
+             fi
+          done 
+          output+=' }'
+          if (( ${count} < `echo ${rval}|wc -l` )); then
              output="${output},"
           fi
           echo "      ${output}"
           let "count=count+1"
-       done
+       done <<< ${rval}
        echo '   ]'
        echo '}'
     else
