@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-03-21T13:08:38Z</date>
+    <date>2018-03-21T14:49:49Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -2238,7 +2238,7 @@
             </items>
             <discovery_rules>
                 <discovery_rule>
-                    <name>PostgreSQL database tables discovery</name>
+                    <name>[PostgreSQL] Discovery: Database tables</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -3926,24 +3926,7 @@ Disabled by default because may add too many items.</description>
                             <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Template DB PostgreSQL:zapgix[db_size,{#DBOID}].last()}&gt;{$PG_DATABASE_SIZE_THRESHOLD}</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>PostgreSQL: database {#DBNAME} to large on {HOSTNAME} (size={ITEM.LASTVALUE})}</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
+                    <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
                             <name>[PostgreSQL] Database {#DBNAME}: Size</name>
@@ -3982,7 +3965,7 @@ Disabled by default because may add too many items.</description>
                     <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>PostgreSQL streaming stand-by discovery</name>
+                    <name>[PostgreSQL] Discovery: Streaming stand-by</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -4008,14 +3991,7 @@ Disabled by default because may add too many items.</description>
                     <filter>
                         <evaltype>0</evaltype>
                         <formula/>
-                        <conditions>
-                            <condition>
-                                <macro>{#HOSTSTANDBY}</macro>
-                                <value/>
-                                <operator>8</operator>
-                                <formulaid>A</formulaid>
-                            </condition>
-                        </conditions>
+                        <conditions/>
                     </filter>
                     <lifetime>1d</lifetime>
                     <description>Low level discovery for streaming replication servers which connected to this server.</description>
