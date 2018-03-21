@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-02-21T15:07:32Z</date>
+    <date>2018-03-21T13:08:38Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -3845,12 +3845,12 @@ Disabled by default because may add too many items.</description>
                     <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>PostgreSQL databases discovery</name>
+                    <name>[PostgreSQL] Discovery: Databases</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix.discovery[db_list,DBNAME:DBOID]</key>
-                    <delay>60</delay>
+                    <delay>12h</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -3874,24 +3874,24 @@ Disabled by default because may add too many items.</description>
                         <conditions>
                             <condition>
                                 <macro>{#DBNAME}</macro>
-                                <value>(zabbix|db_.*)</value>
+                                <value>^(?!(repmgr|.*lost\+found)$).*$</value>
                                 <operator>8</operator>
                                 <formulaid>A</formulaid>
                             </condition>
                         </conditions>
                     </filter>
-                    <lifetime>3600</lifetime>
+                    <lifetime>1d</lifetime>
                     <description>PostgreSQL database discovery. Use regular expressions to configure search.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>PostgreSQL: database {#DBNAME} size</name>
+                            <name>[PostgreSQL] Database {#DBNAME}: Size</name>
                             <type>0</type>
                             <snmp_community/>
                             <snmp_oid/>
                             <key>zapgix[db_size,{#DBOID}]</key>
-                            <delay>60</delay>
-                            <history>7d</history>
-                            <trends>365d</trends>
+                            <delay>15m</delay>
+                            <history>30d</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -3946,7 +3946,7 @@ Disabled by default because may add too many items.</description>
                     </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL: database {#DBNAME} size</name>
+                            <name>[PostgreSQL] Database {#DBNAME}: Size</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4342,7 +4342,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template DB PostgreSQL:zapgix[cache-hits].last()}&lt;{$PG_CACHE_HIT_RATIO}</expression>
+            <expression>{Template DB PostgreSQL:zapgix[cache-hits].max(#5)}&lt;{$PG_CACHE_HIT_RATIO}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>PostgreSQL cache hit ratio too low on {HOSTNAME} ({ITEM.LASTVALUE})</name>
@@ -4374,7 +4374,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template DB PostgreSQL:zapgix[connections-idle_in_transaction].last()}&gt;{$PG_CONN_IDLE_IN_TRANSACTION}</expression>
+            <expression>{Template DB PostgreSQL:zapgix[connections-idle_in_transaction].min(#5)}&gt;{$PG_CONN_IDLE_IN_TRANSACTION}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>PostgreSQL idle in transaction connections to high on {HOSTNAME} ({ITEM.LASTVALUE})</name>
