@@ -103,29 +103,31 @@ if [[ -f "${SQL%.sql}.sql" ]]; then
     rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
     rcode="${?}"
     if [[ ${JSON} -eq 1 ]]; then
-       echo '{'
-       echo '   "data":['
-       count=1
-       while read line; do
-          IFS="|" values=(${line})
-          output='{ '
-          for val_index in ${!values[*]}; do
-             output+='"'{#${JSON_ATTR[${val_index}]}}'":"'${values[${val_index}]}'"'
-             if (( ${val_index}+1 < ${#values[*]} )); then
-                output="${output}, "
-             fi
-          done 
-          output+=' }'
-          if (( ${count} < `echo ${rval}|wc -l` )); then
-             output="${output},"
-          fi
-          echo "      ${output}"
-          let "count=count+1"
-       done <<< ${rval}
-       echo '   ]'
-       echo '}'
+	echo '{'
+	echo '   "data":['
+	count=1
+	while read line; do
+	    if [[ ${line} != '' ]]; then
+		IFS="|" values=(${line})
+		output='{ '
+		for val_index in ${!values[*]}; do
+		    output+='"'{#${JSON_ATTR[${val_index}]}}'":"'${values[${val_index}]}'"'
+		    if (( ${val_index}+1 < ${#values[*]} )); then
+			output="${output}, "
+		    fi
+		done 
+		output+=' }'
+		if (( ${count} < `echo ${rval}|wc -l` )); then
+		    output="${output},"
+		fi
+		echo "      ${output}"
+	    fi
+            let "count=count+1"
+	done <<< ${rval}
+	echo '   ]'
+	echo '}'
     else
-       echo ${rval:-0}
+	echo "${rval:-0}"
     fi
 else
     echo "ZBX_NOTSUPPORTED"
