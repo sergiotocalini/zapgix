@@ -1,1 +1,1 @@
-SELECT	version();
+SHOW	server_version;
