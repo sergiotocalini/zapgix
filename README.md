@@ -23,7 +23,7 @@ Zabbix Agent - PostgreSQL
 # Deploy
 ## Zabbix
 
-Zabbix user has to havesudo privileges.
+Zabbix user has to have sudo privileges.
 
 ```
 #~ cat /etc/sudoers.d/user_zabbix
