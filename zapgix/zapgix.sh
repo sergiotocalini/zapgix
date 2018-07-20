@@ -70,7 +70,7 @@ while getopts "s::a:s:uphvjt:" OPTION; do
             IFS=":" JSON_ATTR=(${OPTARG})
             ;;
 	t)
-	    TIMING="on"
+	    TIMING=${OPTARG}
 	    ;;
 	a)
 	    SQL_ARGS[${#SQL_ARGS[*]}]=${OPTARG}
