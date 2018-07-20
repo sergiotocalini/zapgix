@@ -106,6 +106,9 @@ if [[ -f "${SQL%.sql}.sql" ]]; then
     cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
     rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
     rcode="${?}"
+    if [[ ${rcode} == 0 && ${TIMING} =~ ^(on|ON|1|true|TRUE)$ ]]; then
+	rval=`echo -e "${rval}" | tail -n 1 |cut -d' ' -f2|sed 's/,/./`
+    fi
     if [[ ${JSON} -eq 1 ]]; then
 	echo '{'
 	echo '   "data":['
