@@ -96,6 +96,7 @@ done
 [[ -z "${auth_pass}" ]] && export PGPASSWORD=${auth_pass}
 
 ARGS+="-v timing=${TIMING:-off} "
+
 count=1
 for arg in ${SQL_ARGS[@]}; do
     ARGS+="-v p${count}=${arg//p=} "
