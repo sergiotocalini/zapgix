@@ -56,7 +56,7 @@ version() {
 #################################################################################
 
 #################################################################################
-while getopts "s::a:s:uphvj:" OPTION; do
+while getopts "s::a:s:uphvjt:" OPTION; do
     case ${OPTION} in
 	h)
 	    usage
@@ -69,6 +69,9 @@ while getopts "s::a:s:uphvj:" OPTION; do
 	    #JSON_ATTR=${OPTARG}
             IFS=":" JSON_ATTR=(${OPTARG})
             ;;
+	t)
+	    TIMING="on"
+	    ;;
 	a)
 	    SQL_ARGS[${#SQL_ARGS[*]}]=${OPTARG}
 	    ;;
@@ -92,6 +95,7 @@ done
 
 [[ -z "${auth_pass}" ]] && export PGPASSWORD=${auth_pass}
 
+ARGS+="-v timing=${TIMING:-off}"
 count=1
 for arg in ${SQL_ARGS[@]}; do
     ARGS+="-v p${count}=${arg//p=} "
