@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-03-21T14:49:49Z</date>
+    <date>2018-08-20T18:15:50Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -30,18 +30,18 @@
             </applications>
             <items>
                 <item>
-                    <name>PostgreSQL: general - Ping</name>
+                    <name>[PostgreSQL] General: Number of running processes $1</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>pgsql.ping[{$PG_CONNINFO}]</key>
-                    <delay>60</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <key>proc.num[{$PG_PROCESS_NAME}]</key>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
-                    <value_type>0</value_type>
+                    <value_type>3</value_type>
                     <allowed_hosts/>
-                    <units>ms</units>
+                    <units/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -71,18 +71,18 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: general - Number of running processes $1</name>
+                    <name>[PostgreSQL] General: Ping (Timing)</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>proc.num[{$PG_PROCESS_NAME}]</key>
-                    <delay>30</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <key>zapgix.timing[ping]</key>
+                    <delay>10m</delay>
+                    <history>1w</history>
+                    <trends>30d</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
-                    <units/>
+                    <units>ms</units>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -588,15 +588,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: buffers - Clear</name>
+                    <name>[PostgreSQL] Buffers: Clear</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[buffercache-clear]</key>
-                    <delay>300</delay>
+                    <delay>10m</delay>
                     <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>b</units>
@@ -634,15 +634,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: buffers - Dirty</name>
+                    <name>[PostgreSQL] Buffers: Dirty</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[buffercache-dirty]</key>
-                    <delay>300</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <delay>10m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>b</units>
@@ -680,15 +680,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: buffers - Total</name>
+                    <name>[PostgreSQL] Buffers: Total</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[buffercache-total]</key>
-                    <delay>300</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <delay>10m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>b</units>
@@ -726,15 +726,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: buffers - Used</name>
+                    <name>[PostgreSQL] Buffers: Used</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[buffercache-used]</key>
-                    <delay>300</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <delay>10m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>b</units>
@@ -772,14 +772,14 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: general - Cache hit ratio</name>
+                    <name>[PostgreSQL] General: Cache - Hit ratio</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[cache-hits]</key>
-                    <delay>3600</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
@@ -1067,7 +1067,7 @@
                     <delay>60</delay>
                     <history>7d</history>
                     <trends>365d</trends>
-                    <status>0</status>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
@@ -1821,15 +1821,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: general - Average query time</name>
+                    <name>[PostgreSQL] General: Query time (avg)</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[stats_statements-avg_query_time]</key>
-                    <delay>60</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>ms</units>
@@ -1862,14 +1862,14 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: streaming - Replication: stand-by count</name>
+                    <name>[PostgreSQL] Streaming: Replication - Stand-by count</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[streaming-count]</key>
-                    <delay>120</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -1903,13 +1903,13 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: streaming - Replication: recovery state</name>
+                    <name>[PostgreSQL] Streaming: Replication - Recovery state</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[streaming-state]</key>
-                    <delay>3600</delay>
-                    <history>7d</history>
+                    <delay>1h</delay>
+                    <history>1w</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>1</value_type>
@@ -1944,14 +1944,14 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: transactions - Current max active transaction time</name>
+                    <name>[PostgreSQL] Transactions: Current max active transaction time</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[transactions-active]</key>
-                    <delay>60</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <delay>1m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
@@ -2075,7 +2075,7 @@
                     <delay>60</delay>
                     <history>7d</history>
                     <trends>365d</trends>
-                    <status>0</status>
+                    <status>1</status>
                     <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>s</units>
@@ -2108,14 +2108,14 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: general - Uptime</name>
+                    <name>[PostgreSQL] General: Uptime</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[uptime]</key>
-                    <delay>60</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <delay>1m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -2149,14 +2149,14 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: WAL - Segments count</name>
+                    <name>[PostgreSQL] WAL: Segments count</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[wal-count]</key>
-                    <delay>120</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
@@ -2190,15 +2190,15 @@
                     <master_item/>
                 </item>
                 <item>
-                    <name>PostgreSQL: WAL - Write</name>
+                    <name>[PostgreSQL] WAL: Write</name>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>zapgix[wal-write]</key>
-                    <delay>120</delay>
-                    <history>7d</history>
-                    <trends>365d</trends>
-                    <status>0</status>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
+                    <status>1</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>b</units>
@@ -2243,8 +2243,8 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>pgsql.table.discovery[{$PG_CONNINFO}]</key>
-                    <delay>3600</delay>
-                    <status>0</status>
+                    <delay>12h</delay>
+                    <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -3969,8 +3969,8 @@ Disabled by default because may add too many items.</description>
                     <type>0</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>zapgix.discovery[streaming_list,HOSTSTANDBY]</key>
-                    <delay>3600</delay>
+                    <key>zapgix.discovery[streaming_list, NODE]</key>
+                    <delay>12h</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -3997,14 +3997,14 @@ Disabled by default because may add too many items.</description>
                     <description>Low level discovery for streaming replication servers which connected to this server.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>PostgreSQL: streaming - Packet loss with {#HOSTSTANDBY}, %</name>
+                            <name>[PostgreSQL] Streaming: Packet loss with {#NODE}, %</name>
                             <type>3</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>icmppingloss[{#HOSTSTANDBY},10,100,,]</key>
-                            <delay>60</delay>
-                            <history>7d</history>
-                            <trends>365d</trends>
+                            <key>icmppingloss[{#NODE},10,100,,]</key>
+                            <delay>1m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4039,14 +4039,14 @@ Disabled by default because may add too many items.</description>
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PostgreSQL: streaming - Lag with {#HOSTSTANDBY} in bytes</name>
+                            <name>[PostgreSQL] Streaming: Lag with {#NODE} in bytes</name>
                             <type>0</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>zapgix[streaming-lag-bytes, {#HOSTSTANDBY}]</key>
-                            <delay>60</delay>
-                            <history>7d</history>
-                            <trends>365d</trends>
+                            <key>zapgix[streaming-lag-bytes, {#NODE}]</key>
+                            <delay>1m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
@@ -4081,14 +4081,14 @@ Disabled by default because may add too many items.</description>
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PostgreSQL: streaming - Lag with {#HOSTSTANDBY} in seconds</name>
+                            <name>[PostgreSQL] Streaming: Lag with {#NODE} in seconds</name>
                             <type>0</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>zapgix[streaming-lag-seconds, {#HOSTSTANDBY}]</key>
+                            <key>zapgix[streaming-lag-seconds, {#NODE}]</key>
                             <delay>60</delay>
-                            <history>7d</history>
-                            <trends>365d</trends>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>0</value_type>
                             <allowed_hosts/>
@@ -4127,10 +4127,10 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template DB PostgreSQL:icmppingloss[{#HOSTSTANDBY},10,100,,].last()}&gt;{$PG_SR_PACKET_LOSS}</expression>
+                            <expression>{Template DB PostgreSQL:icmppingloss[{#NODE},10,100,,].last()}&gt;{$PG_SR_PACKET_LOSS}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
-                            <name>PostgreSQL packet loss between {HOSTNAME} and {#HOSTSTANDBY} to high ({ITEM.LASTVALUE})</name>
+                            <name>PostgreSQL: Packet loss with {#NODE} to high ({ITEM.LASTVALUE})</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
                             <url/>
@@ -4138,15 +4138,17 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                             <priority>3</priority>
                             <description/>
                             <type>0</type>
-                            <manual_close>0</manual_close>
+                            <manual_close>1</manual_close>
                             <dependencies/>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template DB PostgreSQL:zapgix[streaming-lag-bytes, {#HOSTSTANDBY}].last()}&gt;{$PG_SR_LAG_BYTE}</expression>
+                            <expression>{Template DB PostgreSQL:zapgix[streaming-lag-seconds, {#NODE}].last()}&gt;{$PG_SR_LAG_SEC}&#13;
+or&#13;
+{Template DB PostgreSQL:zapgix[streaming-lag-bytes, {#NODE}].last()}&gt;{$PG_SR_LAG_BYTE}</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
-                            <name>PostgreSQL streaming lag between {HOSTNAME} and {#HOSTSTANDBY} to high ({ITEM.LASTVALUE})</name>
+                            <name>PostgreSQL: Streaming lag with {#NODE} to high (sec={ITEM.LASTVALUE1}, bytes={ITEM.LASTVALUE2})</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
                             <url/>
@@ -4154,30 +4156,14 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                             <priority>3</priority>
                             <description/>
                             <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Template DB PostgreSQL:zapgix[streaming-lag-seconds, {#HOSTSTANDBY}].last()}&gt;{$PG_SR_LAG_SEC}</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>PostgreSQL streaming lag between {HOSTNAME} and {#HOSTSTANDBY} to high ({ITEM.LASTVALUE})</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
+                            <manual_close>1</manual_close>
                             <dependencies/>
                             <tags/>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PostgreSQL streaming replication lag with {#HOSTSTANDBY}</name>
+                            <name>[PostgreSQL] Streaming replication lag with {#NODE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -4203,19 +4189,19 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                                     <type>0</type>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>zapgix[streaming-lag-bytes, {#HOSTSTANDBY}]</key>
+                                        <key>zapgix[streaming-lag-bytes, {#NODE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
                                     <drawtype>0</drawtype>
                                     <color>00CC00</color>
-                                    <yaxisside>0</yaxisside>
+                                    <yaxisside>1</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>zapgix[streaming-lag-seconds, {#HOSTSTANDBY}]</key>
+                                        <key>zapgix[streaming-lag-seconds, {#NODE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -4229,7 +4215,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <macros>
                 <macro>
                     <macro>{$PG_CACHE_HIT_RATIO}</macro>
-                    <value>90</value>
+                    <value>40</value>
                 </macro>
                 <macro>
                     <macro>{$PG_CHECKPOINTS_REQ_THRESHOLD}</macro>
@@ -4238,14 +4224,6 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                 <macro>
                     <macro>{$PG_CONFLICTS_THRESHOLD}</macro>
                     <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$PG_CONNINFO}</macro>
-                    <value>-h 127.0.0.1 -p 5432 -U postgres -d zabbix</value>
-                </macro>
-                <macro>
-                    <macro>{$PG_CONNINFO_STANDBY}</macro>
-                    <value>-p 5432 -U postgres -d zabbix</value>
                 </macro>
                 <macro>
                     <macro>{$PG_CONN_IDLE_IN_TRANSACTION}</macro>
@@ -4305,7 +4283,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[transactions-active].last()}&gt;{$PG_LONG_QUERY_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL active transaction to long on {HOSTNAME} (time={ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Active transaction to long (time={ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4313,7 +4291,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4321,7 +4299,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[cache-hits].max(#5)}&lt;{$PG_CACHE_HIT_RATIO}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL cache hit ratio too low on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Cache hit ratio too low ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4329,7 +4307,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>2</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4337,7 +4315,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[stats_dbs, deadlocks].last()}&gt;{$PG_DEADLOCKS_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL deadlock occured on {HOSTNAME}</name>
+            <name>PostgreSQL: Deadlock occured</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4345,7 +4323,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4353,7 +4331,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[connections-idle_in_transaction].min(#5)}&gt;{$PG_CONN_IDLE_IN_TRANSACTION}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL idle in transaction connections to high on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Idle in transaction connections to high ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4361,7 +4339,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4369,7 +4347,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[transactions-idle].min(#3)}&gt;{$PG_LONG_QUERY_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL idle transaction to long on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Idle transaction to long ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4377,7 +4355,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4385,7 +4363,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[connections-waiting].last()}&gt;{$PG_CONN_WAITING}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL number of waiting connections to high on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Number of waiting connections to high ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4393,7 +4371,23 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Template DB PostgreSQL:zapgix.timing[ping].last()}&gt;{$PG_PING_THRESHOLD_MS}</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>PostgreSQL: Ping response to long ({ITEM.LASTVALUE})</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4401,7 +4395,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[stats_dbs, conflicts].last()}&gt;{$PG_CONFLICTS_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL recovery conflict occured on {HOSTNAME}</name>
+            <name>PostgreSQL: Recovery conflict occured</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4409,7 +4403,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4417,7 +4411,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[bgwriter, checkpoints_req].last()}&gt;{$PG_CHECKPOINTS_REQ_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL required checkpoints occurs to frequently on {HOSTNAME}</name>
+            <name>PostgreSQL: Required checkpoints occurs to frequently</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4425,23 +4419,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{Template DB PostgreSQL:pgsql.ping[{$PG_CONNINFO}].last()}&gt;{$PG_PING_THRESHOLD_MS}</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>PostgreSQL response to long on {HOSTNAME} ({ITEM.LASTVALUE}</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>3</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4449,7 +4427,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:proc.num[{$PG_PROCESS_NAME}].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL service not running on {HOSTNAME}</name>
+            <name>PostgreSQL: Service not running</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4457,7 +4435,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>4</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4465,7 +4443,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[uptime].last()}&lt;{$PG_UPTIME_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL service was restarted on {HOSTNAME} (uptime={ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Service was restarted (uptime={ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4473,7 +4451,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4481,7 +4459,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[connections-total_pct].last()}&gt;{$PG_CONN_TOTAL_PCT}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL total number of connections to high on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Total number of connections to high ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4489,7 +4467,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4497,7 +4475,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <expression>{Template DB PostgreSQL:zapgix[transactions-waiting].last()}&gt;{$PG_LONG_QUERY_THRESHOLD}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>PostgreSQL waiting transaction to long on {HOSTNAME} ({ITEM.LASTVALUE})</name>
+            <name>PostgreSQL: Waiting transaction to long ({ITEM.LASTVALUE})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -4505,7 +4483,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
             <priority>3</priority>
             <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
+            <manual_close>1</manual_close>
             <dependencies/>
             <tags/>
         </trigger>
@@ -4858,7 +4836,7 @@ host zabbix postgres 1.2.3.4/32 trust</description>
                     <type>0</type>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.ping[{$PG_CONNINFO}]</key>
+                        <key>zapgix.timing[ping]</key>
                     </item>
                 </graph_item>
                 <graph_item>
