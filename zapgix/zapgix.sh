@@ -105,7 +105,7 @@ ARGS+="-v timing=${TIMING:-off} "
 
 count=1
 for arg in ${SQL_ARGS[@]}; do
-    if [[ ${arg} =~ (.*::inet) ]]; then
+    if [[ ${arg} =~ .*::(inet|quote) ]]; then
        ARGS+="-v p${count}=\'${arg%\:\:*}\' "
     else
        ARGS+="-v p${count}=${arg} "
