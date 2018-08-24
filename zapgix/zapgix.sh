@@ -1,6 +1,6 @@
 #!/usr/bin/env ksh
-rcode=0
 PATH=/usr/local/bin:${PATH}
+IFS_DEFAULT="${IFS}"
 
 #################################################################################
 
@@ -21,7 +21,7 @@ APP_WEB="http://www.sergiotocalini.com.ar/"
 #  Load Oracle Environment
 # -------------------------
 #
-[ -f ${APP_DIR}/zapgix.conf ] && . ${APP_DIR}/zapgix.conf
+[ -f ${APP_DIR}/${APP_NAME%.*}.conf ] && . ${APP_DIR}/${APP_NAME%.*}.conf
 
 #
 #################################################################################
@@ -52,6 +52,11 @@ version() {
     echo "${APP_NAME%.*} ${APP_VER}"
     exit 1
 }
+
+zabbix_not_support() {
+    echo "ZBX_NOTSUPPORTED"
+    exit 1
+}
 #
 #################################################################################
 
@@ -66,14 +71,15 @@ while getopts "s::a:sj:uphvt:" OPTION; do
 	    ;;
         j)
             JSON=1
-	    #JSON_ATTR=${OPTARG}
             IFS=":" JSON_ATTR=(${OPTARG})
+	    IFS="${IFS_DEFAULT}"
             ;;
 	t)
 	    TIMING=${OPTARG}
 	    ;;
 	a)
-	    SQL_ARGS[${#SQL_ARGS[*]}]=${OPTARG}
+	    param=${OPTARG//p=}
+	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
 	    ;;
 	u)
 	    auth_user=${OPTARG}
@@ -99,7 +105,11 @@ ARGS+="-v timing=${TIMING:-off} "
 
 count=1
 for arg in ${SQL_ARGS[@]}; do
-    ARGS+="-v p${count}=${arg//p=} "
+    if [[ ${arg} =~ (.*::inet) ]]; then
+       ARGS+="-v p${count}=\'${arg%\:\:*}\' "
+    else
+       ARGS+="-v p${count}=${arg} "
+    fi
     let "count=count+1"
 done
 
@@ -110,36 +120,36 @@ if [[ -f "${SQL%.sql}.sql" ]]; then
     if [[ ${rcode} == 0 && ${TIMING} =~ ^(on|ON|1|true|TRUE)$ ]]; then
 	rval=`echo -e "${rval}" | tail -n 1 |cut -d' ' -f2|sed 's/,/./'`
     fi
-    if [[ ${JSON} -eq 1 ]]; then
-	echo '{'
-	echo '   "data":['
-	count=1
-	while read line; do
-	    if [[ ${line} != '' ]]; then
-		IFS="|" values=(${line})
-		output='{ '
-		for val_index in ${!values[*]}; do
-		    output+='"'{#${JSON_ATTR[${val_index}]:-${val_index}}}'":"'${values[${val_index}]}'"'
-		    if (( ${val_index}+1 < ${#values[*]} )); then
-			output="${output}, "
-		    fi
-		done 
-		output+=' }'
-		if (( ${count} < `echo ${rval}|wc -l` )); then
-		    output="${output},"
-		fi
-		echo "      ${output}"
-	    fi
-            let "count=count+1"
-	done <<< ${rval}
-	echo '   ]'
-	echo '}'
-    else
-	echo "${rval:-0}"
-    fi
 else
-    echo "ZBX_NOTSUPPORTED"
-    rcode="1"
+    zabbix_not_support
+fi
+
+if [[ ${JSON} -eq 1 ]]; then
+    echo '{'
+    echo '   "data":['
+    count=1
+    while read line; do
+       if [[ ${line} != '' ]]; then
+            IFS="|" values=(${line})
+            output='{ '
+            for val_index in ${!values[*]}; do
+               output+='"'{#${JSON_ATTR[${val_index}]:-${val_index}}}'":"'${values[${val_index}]}'"'
+               if (( ${val_index}+1 < ${#values[*]} )); then
+                     output="${output}, "
+	       fi
+            done
+            output+=' }'
+	    if (( ${count} < `echo ${rval}|wc -l` )); then
+	       output="${output},"
+            fi
+            echo "      ${output}"
+	fi
+        let "count=count+1"
+    done <<< ${rval}
+    echo '   ]'
+    echo '}'
+else
+    echo "${rval:-0}"
 fi
 
 exit ${rcode}
