@@ -28,7 +28,8 @@ Zabbix user has to have sudo privileges.
 ```
 #~ cat /etc/sudoers.d/user_zabbix
 # Allow the user zabbix to execute any command without password
-zabbix	ALL=(ALL:ALL) NOPASSWD:ALL
+Defaults:zabbix !requiretty
+zabbix  ALL=(ALL:ALL) NOPASSWD:ALL
 ```
 
 Then you can run the deploy_zabbix script
