@@ -11,14 +11,15 @@ IFS_DEFAULT="${IFS}"
 #
 APP_NAME=$(basename $0)
 APP_DIR=$(dirname $0)
-APP_VER="1.0.0"
-APP_WEB="http://www.sergiotocalini.com.ar/"
+APP_VER="1.0.1"
+APP_WEB="https://github.com/sergiotocalini"
+PSQL_VERSION=`psql -V 2>/dev/null`
 #
 #################################################################################
 
 #################################################################################
 #
-#  Load Oracle Environment
+#  Load Environment
 # -------------------------
 #
 [ -f ${APP_DIR}/${APP_NAME%.*}.conf ] && . ${APP_DIR}/${APP_NAME%.*}.conf
@@ -53,6 +54,24 @@ version() {
     exit 1
 }
 
+join() {
+    delimiter=${1}
+    shift
+    array=( ${@} )
+
+    str=""
+    length=$(( ${#array[@]} - 1 ))
+    for idx in ${!array[@]}; do
+	if [[ ${array[${idx}]} != '' && ${array[${idx}]} != ${delimiter} ]]; then
+	    str+="${array[${idx}]}"
+	    if [[ ${idx} < ${length} ]]; then
+		str+="${delimiter}"
+	    fi
+	fi
+    done
+    echo "${str}"
+}
+
 zabbix_not_support() {
     echo "ZBX_NOTSUPPORTED"
     exit 1
@@ -67,7 +86,24 @@ while getopts "s::a:sj:uphvt:" OPTION; do
 	    usage
 	    ;;
 	s)
-	    SQL="${APP_DIR}/sql/${OPTARG}"
+	    IFS="." PSQL_VERSION=( `echo "${PSQL_VERSION}" | grep -Eo "[0-9]{1,}.*"` )
+	    IFS="${IFS_DEFAULT}"
+	    
+	    len=${#PSQL_VERSION[@]}
+	    while (( ${len} >= 0 )); do
+		version=$( join . ${PSQL_VERSION[@]:0:${len}} )
+		if [[ ${len} -gt 0 && -f "${APP_DIR}/sql/${version}/${OPTARG%.sql}.sql" ]]; then
+		    SQL="${APP_DIR}/sql/${version}/${OPTARG%.sql}.sql"
+		    break
+		elif [[ ${len} == 0 && -f "${APP_DIR}/sql/${OPTARG%.sql}.sql" ]]; then
+		    SQL="${APP_DIR}/sql/${OPTARG%.sql}.sql"
+		fi
+		let "len=len-1"
+	    done
+
+	    if [[ -n ${SQL} ]]; then
+		zabbix_not_support
+	    fi
 	    ;;
         j)
             JSON=1
@@ -113,15 +149,11 @@ for arg in ${SQL_ARGS[@]}; do
     let "count=count+1"
 done
 
-if [[ -f "${SQL%.sql}.sql" ]]; then
-    cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
-    rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
-    rcode="${?}"
-    if [[ ${rcode} == 0 && ${TIMING} =~ ^(on|ON|1|true|TRUE)$ ]]; then
-	rval=`echo -e "${rval}" | tail -n 1 |cut -d' ' -f2|sed 's/,/./'`
-    fi
-else
-    zabbix_not_support
+cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
+rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
+rcode="${?}"
+if [[ ${rcode} == 0 && ${TIMING} =~ ^(on|ON|1|true|TRUE)$ ]]; then
+    rval=`echo -e "${rval}" | tail -n 1 |cut -d' ' -f2|sed 's/,/./'`
 fi
 
 if [[ ${JSON} -eq 1 ]]; then
