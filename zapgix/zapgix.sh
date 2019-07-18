@@ -101,7 +101,7 @@ while getopts "s::a:sj:uphvt:" OPTION; do
 		let "len=len-1"
 	    done
 
-	    if [[ -n ${SQL} ]]; then
+	    if [[ -z ${SQL} ]]; then
 		zabbix_not_support
 	    fi
 	    ;;
