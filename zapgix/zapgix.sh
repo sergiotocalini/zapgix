@@ -41,6 +41,7 @@ usage() {
     echo "  -j            Jsonify output."
     echo "  -p            Specify the auth_pass to connect to the databases."
     echo "  -s ARG(str)   Query to PostgreSQL."
+    echo "  -t on/off     Switch execution time reporting on or off."
     echo "  -u            Specify the auth_user to connect to the databases (default=postgres)."
     echo "  -v            Show the script version."
     echo "  -U            Specify a unix user to execute the sentences (default=postgres)."
