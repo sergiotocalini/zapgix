@@ -21,6 +21,20 @@ Zabbix Agent - PostgreSQL
 ```
 
 # Deploy
+## PostgreSQL
+We may need to enable some extensions.
+```
+postgres=# CREATE EXTENSION pg_buffercache;
+CREATE EXTENSION
+postgres=# \dx pg_buffercache
+                    List of installed extensions
+      Name      | Version | Schema |           Description           
+----------------+---------+--------+---------------------------------
+ pg_buffercache | 1.0     | public | examine the shared buffer cache
+(1 row)
+postgres=#
+```
+
 ## Zabbix
 
 Zabbix user has to have sudo privileges.
