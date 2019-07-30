@@ -13,7 +13,7 @@ APP_NAME=$(basename $0)
 APP_DIR=$(dirname $0)
 APP_VER="1.0.1"
 APP_WEB="https://github.com/sergiotocalini"
-PSQL_VERSION=`psql -V 2>/dev/null`
+PSQL_VERSION=$(psql -V 2>/dev/null)
 #
 #################################################################################
 
@@ -37,6 +37,7 @@ usage() {
     echo ""
     echo "Options:"
     echo "  -a            Query arguments."
+    echo "  -d            Specify the database to connect to."
     echo "  -h            Displays this help message."
     echo "  -j            Jsonify output."
     echo "  -p            Specify the auth_pass to connect to the databases."
@@ -81,10 +82,25 @@ zabbix_not_support() {
 #################################################################################
 
 #################################################################################
-while getopts "s::a:sj:uphvt:" OPTION; do
+while getopts ":a:d:hj:ps:t:uvU:" OPTION; do
     case ${OPTION} in
+	a)
+	    param=${OPTARG//p=}
+	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
+	    ;;
+        d)
+	    ARGS+="-d ${OPTARG} "
+            ;;
 	h)
 	    usage
+	    ;;
+        j)
+            JSON=1
+            IFS=":" JSON_ATTR=(${OPTARG})
+	    IFS="${IFS_DEFAULT}"
+            ;;
+	p)
+	    auth_pass=${OPTARG}
 	    ;;
 	s)
 	    IFS="." PSQL_VERSION=( `echo "${PSQL_VERSION}" | grep -Eo "[0-9]{1,}.*"` )
@@ -106,29 +122,17 @@ while getopts "s::a:sj:uphvt:" OPTION; do
 		zabbix_not_support
 	    fi
 	    ;;
-        j)
-            JSON=1
-            IFS=":" JSON_ATTR=(${OPTARG})
-	    IFS="${IFS_DEFAULT}"
-            ;;
 	t)
 	    TIMING=${OPTARG}
-	    ;;
-	a)
-	    param=${OPTARG//p=}
-	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
 	    ;;
 	u)
 	    auth_user=${OPTARG}
 	    ;;
-	p)
-	    auth_pass=${OPTARG}
+	v)
+	    version
 	    ;;
 	U)
 	    UNIXUSER=${OPTARG}
-	    ;;
-	v)
-	    version
 	    ;;
          \?)
             exit 1
@@ -151,7 +155,7 @@ for arg in ${SQL_ARGS[@]}; do
 done
 
 cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
-rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
+rval=$(sudo -u ${UNIXUSER:-postgres} ${cmd} ${ARGS} 2>/dev/null)
 rcode="${?}"
 if [[ ${rcode} == 0 && ${TIMING} =~ ^(on|ON|1|true|TRUE)$ ]]; then
     rval=`echo -e "${rval}" | tail -n 1 |cut -d' ' -f2|sed 's/,/./'`
