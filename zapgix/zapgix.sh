@@ -13,7 +13,7 @@ APP_NAME=$(basename $0)
 APP_DIR=$(dirname $0)
 APP_VER="1.0.1"
 APP_WEB="https://github.com/sergiotocalini"
-PSQL_VERSION=`psql -V 2>/dev/null`
+PSQL_VERSION=$(psql -V 2>/dev/null)
 #
 #################################################################################
 
@@ -89,7 +89,7 @@ while getopts ":a:d:hj:ps:t:uvU:" OPTION; do
 	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
 	    ;;
         d)
-            database=${OPTARG}
+	    ARGS+="-d ${OPTARG} "
             ;;
 	h)
 	    usage
@@ -153,10 +153,6 @@ for arg in ${SQL_ARGS[@]}; do
     fi
     let "count=count+1"
 done
-
-if [[ -n "$database" ]]; then
-    ARGS+="-d $database "
-fi
 
 cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
 rval=$(sudo -u ${UNIXUSER:-postgres} ${cmd} ${ARGS} 2>/dev/null)
