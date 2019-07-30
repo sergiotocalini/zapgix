@@ -37,6 +37,7 @@ usage() {
     echo ""
     echo "Options:"
     echo "  -a            Query arguments."
+    echo "  -d            Specify the database to connect to."
     echo "  -h            Displays this help message."
     echo "  -j            Jsonify output."
     echo "  -p            Specify the auth_pass to connect to the databases."
@@ -81,7 +82,7 @@ zabbix_not_support() {
 #################################################################################
 
 #################################################################################
-while getopts "s::a:sj:uphvt:" OPTION; do
+while getopts "s::a:d:sj:uphvt:" OPTION; do
     case ${OPTION} in
 	h)
 	    usage
@@ -118,6 +119,9 @@ while getopts "s::a:sj:uphvt:" OPTION; do
 	    param=${OPTARG//p=}
 	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
 	    ;;
+        d)
+            database=${OPTARG}
+            ;;
 	u)
 	    auth_user=${OPTARG}
 	    ;;
@@ -149,6 +153,10 @@ for arg in ${SQL_ARGS[@]}; do
     fi
     let "count=count+1"
 done
+
+if [[ -n "$database" ]]; then
+    ARGS+="-d $database "
+fi
 
 cmd="psql -qAtX -U ${auth_user:-postgres} -f ${SQL%.sql}.sql"
 rval=`sudo su - ${UNIXUSER:-postgres} -c "${cmd} ${ARGS} 2>/dev/null"`
