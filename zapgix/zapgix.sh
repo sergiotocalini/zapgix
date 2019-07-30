@@ -82,10 +82,25 @@ zabbix_not_support() {
 #################################################################################
 
 #################################################################################
-while getopts "s::a:d:sj:uphvt:" OPTION; do
+while getopts ":a:d:hj:ps:t:uvU:" OPTION; do
     case ${OPTION} in
+	a)
+	    param=${OPTARG//p=}
+	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
+	    ;;
+        d)
+            database=${OPTARG}
+            ;;
 	h)
 	    usage
+	    ;;
+        j)
+            JSON=1
+            IFS=":" JSON_ATTR=(${OPTARG})
+	    IFS="${IFS_DEFAULT}"
+            ;;
+	p)
+	    auth_pass=${OPTARG}
 	    ;;
 	s)
 	    IFS="." PSQL_VERSION=( `echo "${PSQL_VERSION}" | grep -Eo "[0-9]{1,}.*"` )
@@ -107,32 +122,17 @@ while getopts "s::a:d:sj:uphvt:" OPTION; do
 		zabbix_not_support
 	    fi
 	    ;;
-        j)
-            JSON=1
-            IFS=":" JSON_ATTR=(${OPTARG})
-	    IFS="${IFS_DEFAULT}"
-            ;;
 	t)
 	    TIMING=${OPTARG}
 	    ;;
-	a)
-	    param=${OPTARG//p=}
-	    [[ -n ${param} ]] && SQL_ARGS[${#SQL_ARGS[*]}]=${param}
-	    ;;
-        d)
-            database=${OPTARG}
-            ;;
 	u)
 	    auth_user=${OPTARG}
 	    ;;
-	p)
-	    auth_pass=${OPTARG}
+	v)
+	    version
 	    ;;
 	U)
 	    UNIXUSER=${OPTARG}
-	    ;;
-	v)
-	    version
 	    ;;
          \?)
             exit 1
