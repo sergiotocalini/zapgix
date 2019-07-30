@@ -1,2 +1,3 @@
 auth_user="monitor"
 auth_pass="xxxxxxx"
+#PSQL_VERSION=$(psql -V 2>/dev/null)
