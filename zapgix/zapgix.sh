@@ -140,7 +140,7 @@ while getopts ":a:d:hj:ps:t:uvU:" OPTION; do
     esac
 done
 
-[[ -z "${auth_pass}" ]] && export PGPASSWORD=${auth_pass}
+[ -n "${auth_pass}" ] && export PGPASSWORD=${auth_pass}
 
 ARGS+="-v timing=${TIMING:-off} "
 
